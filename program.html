@@ -37,24 +37,20 @@ img { max-width: 100%; display: block; }
   --grid-color: rgba(94, 23, 235, 0.04);
 }
 
-/* Paper Grid */
 body::before {
   content: '';
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background-image:
     linear-gradient(var(--grid-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
   background-size: 40px 40px;
-  z-index: -1;
-  pointer-events: none;
+  z-index: -1; pointer-events: none;
 }
 
-/* Animations */
 @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 @keyframes gradient-shift { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
-.anim { opacity:0; transform:translateY(25px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.anim { opacity:0; transform:translateY(25px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .anim.visible { opacity:1; transform:translateY(0); }
 
 .gradient-text {
@@ -63,16 +59,6 @@ body::before {
   -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
 }
 
-/* === Icon System === */
-.icon-box {
-  width: 46px; height: 46px;
-  border-radius: 12px;
-  background: var(--purple-subtle);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; color: var(--purple);
-}
-.icon-box svg { width: 22px; height: 22px; }
-
 /* === Navbar === */
 .navbar {
   position: fixed; top:0; left:0; right:0; z-index:1000;
@@ -80,8 +66,7 @@ body::before {
   display: flex; align-items: center; justify-content: space-between;
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  transition: all 0.3s;
+  border-bottom: 1px solid var(--border); transition: all 0.3s;
 }
 .navbar.scrolled { background: rgba(255,255,255,0.92); box-shadow: 0 2px 24px rgba(94,23,235,0.06); }
 .nav-brand { display: flex; align-items: center; }
@@ -119,23 +104,18 @@ body::before {
 
 /* === PAGE HEADER === */
 .page-header {
-  padding: 130px 2rem 60px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+  padding: 130px 2rem 50px; text-align: center;
+  position: relative; overflow: hidden;
 }
 .page-header-glow {
   position:absolute; border-radius:50%; filter:blur(120px); pointer-events:none; opacity:0.5;
 }
 .page-header-glow-1 { top:-100px; right:-100px; width:500px; height:500px; background:rgba(94,23,235,0.1); }
 .page-header-glow-2 { bottom:-100px; left:-100px; width:400px; height:400px; background:rgba(126,70,255,0.07); }
-.page-header-inner {
-  max-width: var(--max-width); margin: 0 auto; position: relative; z-index: 1;
-}
+.page-header-inner { max-width: var(--max-width); margin: 0 auto; position: relative; z-index: 1; }
 .page-header h1 {
   font-size: 3rem; font-weight: 800; line-height: 1.15;
-  letter-spacing: -0.03em; color: var(--text-primary);
-  margin-bottom: 1rem;
+  letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 1rem;
 }
 .page-header p {
   font-size: 1.1rem; color: var(--text-secondary); max-width: 650px;
@@ -143,7 +123,7 @@ body::before {
 }
 
 /* === PILLARS === */
-.pillars-section { padding: 0 2rem 4rem; }
+.pillars-section { padding: 0 2rem 3rem; }
 .pillars-inner { max-width: var(--max-width); margin: 0 auto; }
 .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 .pillar-card {
@@ -172,7 +152,7 @@ body::before {
 .pillar-detail span { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
 .pillar-detail strong { font-size: 0.85rem; color: var(--text-primary); font-weight: 700; }
 
-/* === TIMELINE === */
+/* === SECTION BASICS === */
 .section { padding: 5rem 2rem; position: relative; }
 .section-inner { max-width: var(--max-width); margin: 0 auto; }
 .section-header { text-align:center; max-width:650px; margin:0 auto 3.5rem; }
@@ -187,77 +167,179 @@ body::before {
 .section-desc { font-size:1rem; color:var(--text-secondary); line-height:1.75; }
 .section-purple { background:linear-gradient(180deg, var(--purple-bg), rgba(94,23,235,0.04), var(--purple-bg)); }
 
-/* Track section */
-.track-group { margin-bottom: 3.5rem; }
-.track-group:last-child { margin-bottom: 0; }
-.track-header {
-  display: flex; align-items: center; gap: 1rem;
-  margin-bottom: 1.5rem; padding-bottom: 1rem;
-  border-bottom: 2px solid var(--border);
+/* =============================================
+   TIMELINE — Alternating Left / Right
+   ============================================= */
+.timeline { position: relative; padding: 2rem 0; }
+
+/* Center vertical line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--purple), var(--purple-light), rgba(94,23,235,0.15));
+  transform: translateX(-50%);
+  border-radius: 3px;
 }
-.track-number {
-  width: 42px; height: 42px; border-radius: 50%;
+
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 0 3rem 4rem;
+}
+
+/* Left items */
+.timeline-item.left {
+  left: 0;
+  padding-right: 3.5rem;
+  text-align: right;
+}
+
+/* Right items */
+.timeline-item.right {
+  left: 50%;
+  padding-left: 3.5rem;
+  text-align: left;
+}
+
+/* Center dot on the line */
+.timeline-dot {
+  position: absolute;
+  top: 8px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
   background: linear-gradient(135deg, var(--purple), var(--purple-light));
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 0.95rem; color: #fff; flex-shrink: 0;
+  z-index: 2;
+  box-shadow: 0 4px 16px var(--purple-glow), 0 0 0 6px rgba(94,23,235,0.08);
 }
-.track-title { font-size: 1.35rem; font-weight: 700; color: var(--text-primary); }
-.track-session-info { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; margin-left: auto; white-space: nowrap; }
+.timeline-dot svg { width: 22px; height: 22px; color: #fff; }
 
-.modules-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-.module-card {
-  padding: 1.5rem; background: var(--white); border: 1px solid var(--border);
-  border-radius: var(--radius); transition: all 0.3s; cursor: pointer;
+.timeline-item.left .timeline-dot {
+  right: -24px;
 }
-.module-card:hover { border-color: var(--border-hover); box-shadow: 0 8px 24px rgba(94,23,235,0.06); }
-.module-card-header {
-  display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem;
+.timeline-item.right .timeline-dot {
+  left: -24px;
 }
-.module-tag {
-  font-size: 0.65rem; font-weight: 700; color: var(--purple); text-transform: uppercase;
-  letter-spacing: 0.08em; margin-bottom: 0.35rem;
+
+/* Week label */
+.timeline-week {
+  display: inline-block;
+  font-size: 0.72rem; font-weight: 700; color: var(--purple);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
 }
-.module-card h4 { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
-.module-toggle {
-  width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border);
+
+/* The content card */
+.timeline-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  transition: all 0.35s;
+  text-align: left;
+  position: relative;
+}
+.timeline-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 12px 36px rgba(94,23,235,0.08);
+  transform: translateY(-3px);
+}
+
+/* Arrow pointer towards the line */
+.timeline-item.left .timeline-card::after {
+  content: '';
+  position: absolute;
+  top: 18px; right: -10px;
+  border: 10px solid transparent;
+  border-left-color: var(--white);
+  border-right: none;
+}
+.timeline-item.left .timeline-card::before {
+  content: '';
+  position: absolute;
+  top: 17px; right: -12px;
+  border: 11px solid transparent;
+  border-left-color: var(--border);
+  border-right: none;
+}
+.timeline-item.right .timeline-card::after {
+  content: '';
+  position: absolute;
+  top: 18px; left: -10px;
+  border: 10px solid transparent;
+  border-right-color: var(--white);
+  border-left: none;
+}
+.timeline-item.right .timeline-card::before {
+  content: '';
+  position: absolute;
+  top: 17px; left: -12px;
+  border: 11px solid transparent;
+  border-right-color: var(--border);
+  border-left: none;
+}
+
+.timeline-card h3 {
+  font-size: 1.15rem; font-weight: 700; color: var(--text-primary);
+  margin-bottom: 0.35rem; line-height: 1.3;
+}
+.timeline-card .card-subtitle {
+  font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 500;
+}
+
+/* Module list inside timeline cards */
+.module-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.module-item {
+  display: flex; align-items: flex-start; gap: 0.7rem;
+  padding: 0.75rem 1rem;
+  background: var(--purple-subtle);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.module-item:hover { background: rgba(94,23,235,0.1); }
+.module-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--purple);
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; color: var(--purple); transition: all 0.3s; background: var(--white);
+  font-size: 0.7rem; font-weight: 700; color: #fff; flex-shrink: 0;
 }
-.module-card.open .module-toggle { background: var(--purple); color: #fff; transform: rotate(45deg); }
-.module-topics {
+.module-info { flex: 1; }
+.module-info h4 { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); line-height: 1.35; }
+.module-info .module-topics-brief {
+  font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.45;
+}
+
+/* Expandable topics within module items */
+.module-item-expandable { cursor: pointer; }
+.module-expand-icon {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--purple); transition: all 0.3s;
+  background: var(--white); margin-top: 2px;
+}
+.module-item-expandable.open .module-expand-icon {
+  background: var(--purple); color: #fff; transform: rotate(45deg);
+}
+.module-detail-topics {
   max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
 }
-.module-card.open .module-topics { max-height: 600px; }
-.module-topics-inner {
-  padding-top: 1rem; margin-top: 1rem; border-top: 1px solid var(--border);
+.module-item-expandable.open .module-detail-topics { max-height: 400px; }
+.module-detail-topics ul {
+  list-style: none; padding: 0.6rem 0 0 2.4rem;
+  display: flex; flex-direction: column; gap: 0.3rem;
 }
-.module-topics-inner ul {
-  list-style: none; display: flex; flex-direction: column; gap: 0.5rem;
+.module-detail-topics li {
+  display: flex; align-items: flex-start; gap: 0.45rem;
+  font-size: 0.75rem; color: var(--text-secondary); line-height: 1.45;
 }
-.module-topics-inner li {
-  display: flex; align-items: flex-start; gap: 0.6rem;
-  font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;
-}
-.module-topics-inner li svg {
-  width: 16px; height: 16px; flex-shrink: 0; color: var(--purple); margin-top: 2px;
-}
+.module-detail-topics li svg { width: 13px; height: 13px; flex-shrink: 0; color: var(--purple); margin-top: 2px; }
 
-/* === INTERVIEW PREP === */
-.interview-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-.interview-card {
-  padding: 1.5rem; background: var(--white); border: 1px solid var(--border);
-  border-radius: var(--radius); transition: all 0.3s;
-}
-.interview-card:hover { border-color: var(--border-hover); box-shadow: 0 8px 24px rgba(94,23,235,0.06); }
-.interview-card h4 { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.65rem; }
-.interview-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
-.interview-card li {
-  display: flex; align-items: flex-start; gap: 0.5rem;
-  font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;
-}
-.interview-card li svg { width: 14px; height: 14px; flex-shrink: 0; color: #16a34a; margin-top: 3px; }
-
-/* === AI MODULE === */
+/* === SPECIAL SECTIONS (AI, Interview) at bottom === */
 .ai-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 .ai-card {
   padding: 2rem; background: var(--white); border: 1px solid var(--border);
@@ -280,7 +362,22 @@ body::before {
 .ai-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); }
 .ai-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
 
-/* === HIGHLIGHTS === */
+/* Interview cards */
+.interview-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.interview-card {
+  padding: 1.5rem; background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); transition: all 0.3s;
+}
+.interview-card:hover { border-color: var(--border-hover); box-shadow: 0 8px 24px rgba(94,23,235,0.06); }
+.interview-card h4 { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.65rem; }
+.interview-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+.interview-card li {
+  display: flex; align-items: flex-start; gap: 0.5rem;
+  font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;
+}
+.interview-card li svg { width: 14px; height: 14px; flex-shrink: 0; color: #16a34a; margin-top: 3px; }
+
+/* Highlights */
 .highlights-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
 .highlight-card {
   padding: 1.5rem; background: var(--white); border: 1px solid var(--border);
@@ -297,7 +394,7 @@ body::before {
 .highlight-card h4 { font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem; }
 .highlight-card p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
 
-/* === CTA === */
+/* CTA */
 .cta-section { padding:5rem 2rem; }
 .cta-card {
   max-width:780px; margin:0 auto; text-align:center;
@@ -308,7 +405,7 @@ body::before {
 .cta-card h2 { font-size:2.25rem; font-weight:800; margin-bottom:0.85rem; line-height:1.2; color:var(--text-primary); }
 .cta-card p { color:var(--text-secondary); font-size:1rem; margin-bottom:2rem; max-width:500px; margin-left:auto; margin-right:auto; }
 
-/* === FOOTER === */
+/* Footer */
 .footer { padding:3.5rem 2rem 1.5rem; border-top:1px solid var(--border); background:var(--white); }
 .footer-inner { max-width:var(--max-width); margin:0 auto; display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:2rem; }
 .footer-brand p { color:var(--text-muted); font-size:0.82rem; max-width:280px; line-height:1.6; margin-top:0.75rem; }
@@ -336,7 +433,11 @@ body::before {
   .pillars-grid { grid-template-columns: repeat(2, 1fr); }
   .ai-grid { grid-template-columns: repeat(2, 1fr); }
   .highlights-grid { grid-template-columns: repeat(2, 1fr); }
+  .timeline-item { padding: 0 2.5rem 3rem; }
+  .timeline-item.left { padding-right: 3rem; }
+  .timeline-item.right { padding-left: 3rem; }
 }
+
 @media (max-width:768px) {
   .nav-links { display:none; }
   .hamburger { display:flex; }
@@ -349,22 +450,60 @@ body::before {
   .page-header { padding: 110px 1.5rem 40px; }
   .page-header h1 { font-size: 2rem; }
   .pillars-grid { grid-template-columns: 1fr; }
-  .modules-grid { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.85rem; }
+
+  /* Timeline goes single column on mobile */
+  .timeline::before { left: 24px; }
+  .timeline-item,
+  .timeline-item.left,
+  .timeline-item.right {
+    width: 100%;
+    left: 0;
+    padding-left: 4rem;
+    padding-right: 1rem;
+    text-align: left;
+  }
+  .timeline-item.left .timeline-dot,
+  .timeline-item.right .timeline-dot {
+    left: 0; right: auto;
+  }
+  .timeline-item.left .timeline-card::after,
+  .timeline-item.left .timeline-card::before { display: none; }
+  .timeline-item.right .timeline-card::after { left: -10px; }
+  .timeline-item.right .timeline-card::before { left: -12px; }
+  .timeline-item.left .timeline-card::after {
+    display: block;
+    right: auto; left: -10px;
+    border: 10px solid transparent;
+    border-right-color: var(--white);
+    border-left: none;
+  }
+  .timeline-item.left .timeline-card::before {
+    display: block;
+    right: auto; left: -12px;
+    border: 11px solid transparent;
+    border-right-color: var(--border);
+    border-left: none;
+  }
+
   .interview-grid { grid-template-columns: 1fr; }
   .ai-grid { grid-template-columns: 1fr; }
   .highlights-grid { grid-template-columns: repeat(2, 1fr); }
-  .section-title { font-size: 1.85rem; }
-  .track-header { flex-wrap: wrap; }
-  .track-session-info { margin-left: 0; }
   .cta-card { padding:2.5rem 1.5rem; }
   .cta-card h2 { font-size:1.65rem; }
   .footer-inner { flex-direction:column; }
 }
+
 @media (max-width:480px) {
   .page-header { padding: 100px 1rem 30px; }
   .page-header h1 { font-size: 1.7rem; }
   .section { padding: 3.5rem 1rem; }
   .highlights-grid { grid-template-columns: 1fr; }
+  .timeline-item,
+  .timeline-item.left,
+  .timeline-item.right { padding-left: 3.5rem; }
+  .timeline-dot { width: 40px; height: 40px; }
+  .timeline-dot svg { width: 18px; height: 18px; }
 }
 </style>
 </head>
@@ -405,487 +544,529 @@ body::before {
 <section class="pillars-section anim">
   <div class="pillars-inner">
     <div class="pillars-grid">
-
       <div class="pillar-card">
         <div class="pillar-icon pi-purple">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
         </div>
         <h3>Learning PM Concepts</h3>
-        <p>6 live sessions (3 hours each) covering everything from foundations to scaling products. Hands-on experience through real case studies and assignments.</p>
+        <p>6 live sessions (3 hours each) covering everything from foundations to scaling products.</p>
         <div class="pillar-detail">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Duration:</span>
-          <strong>~10 Weeks</strong>
+          <span>Duration:</span><strong>~10 Weeks</strong>
         </div>
       </div>
-
       <div class="pillar-card">
         <div class="pillar-icon pi-green">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
         <h3>Preparing for Interviews</h3>
-        <p>5 live sessions (2 hours each) covering every framework, case study and question type you need to crack your product interview.</p>
+        <p>5 live sessions (2 hours each) covering every framework and question type you need.</p>
         <div class="pillar-detail">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Duration:</span>
-          <strong>~10 Weeks</strong>
+          <span>Duration:</span><strong>~10 Weeks</strong>
         </div>
       </div>
-
       <div class="pillar-card">
         <div class="pillar-icon pi-blue">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
         <h3>Connecting 1:1 with Malay</h3>
-        <p>Get Malay's calendar link to block time. Discuss referrals, job applications, CV, portfolio, and do unlimited mock interviews.</p>
+        <p>Unlimited 1:1 sessions for referrals, CV reviews, mock interviews and more.</p>
         <div class="pillar-detail">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Duration:</span>
-          <strong>Ongoing</strong>
+          <span>Duration:</span><strong>Ongoing</strong>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ===== LEARNING PM CONCEPTS ===== -->
-<section class="section" id="learning-pm">
+<!-- ===== WEEK-BY-WEEK TIMELINE ===== -->
+<section class="section" id="curriculum">
   <div class="section-inner">
     <div class="section-header anim">
       <div class="section-tag">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-        Learning PM Concepts
+        Week-by-Week Curriculum
       </div>
-      <h2 class="section-title">30 Modules Across 6 Tracks</h2>
-      <p class="section-desc">From PM foundations to scaling products at growth stage — master every concept with hands-on practice and real case studies.</p>
+      <h2 class="section-title">Your Learning Journey</h2>
+      <p class="section-desc">Learning and interview sessions run in parallel over ~10 weeks. Click any module to see what's covered.</p>
     </div>
 
-    <!-- Track 1: PM Foundations -->
-    <div class="track-group anim">
-      <div class="track-header">
-        <div class="track-number">1</div>
-        <div class="track-title">Product Management Foundations</div>
-        <div class="track-session-info">Modules 1–5</div>
-      </div>
-      <div class="modules-grid">
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div>
-              <div class="module-tag">Module 1</div>
-              <h4>Introduction to PM Foundations</h4>
+    <div class="timeline">
+
+      <!-- WEEK 1 — LEFT -->
+      <div class="timeline-item left anim">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="timeline-week">Week 1</div>
+        <div class="timeline-card">
+          <h3>PM Foundations</h3>
+          <div class="card-subtitle">Track 1 &middot; Getting Started</div>
+          <div class="module-list">
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">1</div>
+              <div class="module-info">
+                <h4>Introduction to PM Foundations</h4>
+                <div class="module-topics-brief">Opportunity Validation, User &amp; Business Value</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Feature Opportunity Validation</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Refine User Value</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Refine Business Value</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Validate &amp; Communicate Opportunity</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Feature Opportunity Validation</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Refine User Value</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Refine Business Value</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Validate &amp; Communicate Opportunity</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div>
-              <div class="module-tag">Module 2</div>
-              <h4>Feature Design</h4>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">2</div>
+              <div class="module-info">
+                <h4>Feature Design</h4>
+                <div class="module-topics-brief">Divergence, Convergence, Design Approval</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Constrained Divergence</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Iterative Convergence</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Design Approval &amp; Building Alignment</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
           </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Constrained Divergence</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Iterative Convergence</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Design Approval &amp; Building Alignment</li>
-          </ul></div></div>
         </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div>
-              <div class="module-tag">Module 3</div>
-              <h4>Feature Development</h4>
+      </div>
+
+      <!-- WEEK 2 — RIGHT -->
+      <div class="timeline-item right anim">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div class="timeline-week">Week 2</div>
+        <div class="timeline-card">
+          <h3>Build &amp; Ship Features</h3>
+          <div class="card-subtitle">Track 1 &middot; Development to Launch</div>
+          <div class="module-list">
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">3</div>
+              <div class="module-info">
+                <h4>Feature Development</h4>
+                <div class="module-topics-brief">Dev Playbook, Team Mapping, Risk Management</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>The Feature Development Playbook</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Mapping Your Team</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Preparing for Development</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Managing Execution &amp; Risk Management</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>The Feature Development Playbook</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Mapping Your Team</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Preparing for Development</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Managing Execution</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Risk Management</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div>
-              <div class="module-tag">Module 4</div>
-              <h4>Feature Launch &amp; Iteration</h4>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">4</div>
+              <div class="module-info">
+                <h4>Feature Launch &amp; Iteration</h4>
+                <div class="module-topics-brief">Launch Coordination, Performance, Communication</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Feature Launch Coordination</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Feature Performance</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Post Launch Communication</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Feature Launch Coordination</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Feature Performance</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Post Launch Communication</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div>
-              <div class="module-tag">Module 5</div>
-              <h4>Feature Prioritisation</h4>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">5</div>
+              <div class="module-info">
+                <h4>Feature Prioritisation</h4>
+                <div class="module-topics-brief">Roadmap Ideas, Prioritisation, Sprint Planning</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Prerequisites to Roadmap Prioritisation</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Building &amp; Prioritising Roadmap Ideas</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Roadmap Case Study</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Sprint Level Prioritisation</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
           </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Prerequisites to Roadmap Prioritisation</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Building a List of Roadmap Ideas</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Prioritising Ideas on your Roadmap</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Roadmap Case Study</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Sprint Level Prioritisation</li>
-          </ul></div></div>
         </div>
       </div>
-    </div>
 
-    <!-- Track 2: Data for PMs -->
-    <div class="track-group anim">
-      <div class="track-header">
-        <div class="track-number">2</div>
-        <div class="track-title">Data for Product Managers</div>
-        <div class="track-session-info">Modules 6–10</div>
-      </div>
-      <div class="modules-grid">
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 6</div><h4>Altitude Maps</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Building an Altitude Map</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Using the Altitude Map</li>
-          </ul></div></div>
+      <!-- WEEK 3 — LEFT -->
+      <div class="timeline-item left anim">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
         </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 7</div><h4>Instrumentation &amp; Generating Data Insights</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div class="timeline-week">Week 3</div>
+        <div class="timeline-card">
+          <h3>Data for Product Managers</h3>
+          <div class="card-subtitle">Track 2 &middot; Becoming Data-Driven</div>
+          <div class="module-list">
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">6</div>
+              <div class="module-info">
+                <h4>Altitude Maps</h4>
+                <div class="module-topics-brief">Building &amp; Using Altitude Maps</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Building an Altitude Map</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Using the Altitude Map</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">7</div>
+              <div class="module-info">
+                <h4>Instrumentation &amp; Data Insights</h4>
+                <div class="module-topics-brief">Control, Instrumentation, Generating Insights</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Taking Control with Instrumentation</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Generating Data Insights</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">8</div>
+              <div class="module-info">
+                <h4>Key Analytical Tools</h4>
+                <div class="module-topics-brief">Segmentation Analysis, Variable Relationships</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>The 2 Key Analytical Tools</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Segmentation Analysis Deep Dive</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Relationship between Variables Deep Dive</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
           </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Taking Control with Instrumentation</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Generating Data Insights</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 8</div><h4>Key Analytical Tools</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>The 2 Key Analytical Tools</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Segmentation Analysis Deep Dive</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Relationship between Variables Deep Dive</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 9</div><h4>Communicating Persuasively</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Communicating Persuasively with Data</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 10</div><h4>Leveraging Data</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Leveraging your Data Resources</li>
-          </ul></div></div>
         </div>
       </div>
-    </div>
 
-    <!-- Track 3: Experimentation -->
-    <div class="track-group anim">
-      <div class="track-header">
-        <div class="track-number">3</div>
-        <div class="track-title">Experimentation &amp; A/B Testing</div>
-        <div class="track-session-info">Modules 11–16</div>
-      </div>
-      <div class="modules-grid">
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 11</div><h4>Strategic Experimentation</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Why Experimentation is Critical</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Cultural Barriers to Experimentation</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Five Myths of Experimentation</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Strategic vs Ad Hoc Experimentation</li>
-          </ul></div></div>
+      <!-- WEEK 4 — RIGHT -->
+      <div class="timeline-item right anim">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
         </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 12</div><h4>Identifying a Strategic Opportunity</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div class="timeline-week">Week 4</div>
+        <div class="timeline-card">
+          <h3>Data Communication &amp; Leverage</h3>
+          <div class="card-subtitle">Track 2 &middot; Using Data Effectively</div>
+          <div class="module-list">
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">9</div>
+              <div class="module-info">
+                <h4>Communicating Persuasively</h4>
+                <div class="module-topics-brief">Persuasive storytelling with data</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Communicating Persuasively with Data</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">10</div>
+              <div class="module-info">
+                <h4>Leveraging Data</h4>
+                <div class="module-topics-brief">Making the most of your data resources</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Leveraging your Data Resources</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">11</div>
+              <div class="module-info">
+                <h4>Strategic Experimentation</h4>
+                <div class="module-topics-brief">Why Experimentation, Myths, Strategic vs Ad Hoc</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Why Experimentation is Critical</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Cultural Barriers &amp; Five Myths</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Strategic vs Ad Hoc Experimentation</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
           </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Building a Strategic Foundation</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>When to Use Experimentation</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>3 Components of a Strategic Opportunity</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Understanding &amp; Defining Your Strategy</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Acquisition, Retention, Monetisation &amp; Defensibility</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 13</div><h4>Customer Problem</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Defining a Customer Problem</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>User Insight to Customer Problem</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Data Insight to Customer Problem</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Mistakes in Defining Customer Problems</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 14</div><h4>Business Outcome</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Outcome Metrics</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Acquisition, Retention &amp; Monetisation Outcome Metrics</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 15</div><h4>Prioritising &amp; Communicating</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Prioritising Your Strategic Opportunities</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Creating a Narrative &amp; Generating Solutions</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Good vs Great Solution Development</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Design Modifications &amp; User Psych</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 16</div><h4>Analysing Test Results</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Test Launch &amp; Calling a Test Complete</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Evaluating Test Results &amp; Iterating</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Implementing Test Wins &amp; Measuring Value</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Communicating Results</li>
-          </ul></div></div>
         </div>
       </div>
-    </div>
 
-    <!-- Track 4: Mastery Skills -->
-    <div class="track-group anim">
-      <div class="track-header">
-        <div class="track-number">4</div>
-        <div class="track-title">Mastery Skills for PMs</div>
-        <div class="track-session-info">Modules 17–24</div>
-      </div>
-      <div class="modules-grid">
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 17</div><h4>Mastering Product Strategy</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Creating Strategic Foundations</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>The 6 Dimensions of Product Strategy</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Target Audience &amp; Value Proposition</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Strategic Differentiation, Channel &amp; Monetisation</li>
-          </ul></div></div>
+      <!-- WEEK 5 — LEFT -->
+      <div class="timeline-item left anim">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 18</div><h4>Mastering Vision Narratives</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div class="timeline-week">Week 5</div>
+        <div class="timeline-card">
+          <h3>Experimentation &amp; A/B Testing</h3>
+          <div class="card-subtitle">Track 3 &middot; Strategic Opportunities &amp; Customer Problems</div>
+          <div class="module-list">
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">12</div>
+              <div class="module-info">
+                <h4>Identifying a Strategic Opportunity</h4>
+                <div class="module-topics-brief">Strategy Foundation, Acquisition, Retention</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Building a Strategic Foundation</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>3 Components of a Strategic Opportunity</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Understanding &amp; Defining Your Strategy</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Acquisition, Retention, Monetisation &amp; Defensibility</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">13</div>
+              <div class="module-info">
+                <h4>Customer Problem</h4>
+                <div class="module-topics-brief">Defining, User Insight, Data Insight, Mistakes</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Defining a Customer Problem</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>User Insight &amp; Data Insight to Customer Problem</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Mistakes in Defining Customer Problems</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">14</div>
+              <div class="module-info">
+                <h4>Business Outcome</h4>
+                <div class="module-topics-brief">Outcome Metrics, Acquisition, Retention, Monetisation</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Outcome Metrics</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Acquisition, Retention &amp; Monetisation Outcome Metrics</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
           </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Creating &amp; Using your Vision</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>High Leverage Visions</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Vision Narratives, Not Statements</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Buy-In on your Vision</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 19</div><h4>Feedback Management Systems</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Feedback Rivers &amp; Setting up Your River</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Feedback Systems of Record</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Using Feedback Management Systems</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 20</div><h4>Mastering Lever Dashboards</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Setting up Your Lever Dashboard</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Lever Dashboard Rituals</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>KPIs and Roadmaps</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 21</div><h4>Building 4D Roadmaps</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>The 4 Lenses</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Brainstorming Objectives &amp; Initiatives</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Prioritising Objectives &amp; Initiatives</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 22</div><h4>Creating OKR Loops</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Developing Outcome Oriented OKRs</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Writing &amp; Socialising High-Leverage OKRs</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>OKR Reviews &amp; Post Mortem</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Avoiding the Pitfalls of OKRs</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 23</div><h4>Empowering Product Specs</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Writing the Specifications</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Empowering Context</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Empowering Implementation</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 24</div><h4>Decision Architecture</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Decision Budget &amp; Circles</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Determining Your Decision Budget</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Decision Making Circles</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Completing the Decision Loop</li>
-          </ul></div></div>
         </div>
       </div>
-    </div>
 
-    <!-- Track 5: Scaling Product Delivery -->
-    <div class="track-group anim">
-      <div class="track-header">
-        <div class="track-number">5</div>
-        <div class="track-title">Scaling Product Delivery</div>
-        <div class="track-session-info">Modules 25–27</div>
-      </div>
-      <div class="modules-grid">
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 25</div><h4>Product Conviction</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Delivery Systems at Scale</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Customer Value Conviction</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Document Hypothesis</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Refine User Profile &amp; Problem</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Build &amp; Test Solution</li>
-          </ul></div></div>
+      <!-- WEEK 6 — RIGHT -->
+      <div class="timeline-item right anim">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 26</div><h4>Building Impact Conviction</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div class="timeline-week">Week 6</div>
+        <div class="timeline-card">
+          <h3>Testing &amp; Communicating Results</h3>
+          <div class="card-subtitle">Track 3 &middot; Running &amp; Analysing Experiments</div>
+          <div class="module-list">
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">15</div>
+              <div class="module-info">
+                <h4>Prioritising &amp; Communicating</h4>
+                <div class="module-topics-brief">Narratives, Solutions, Design Modifications</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Prioritising Strategic Opportunities</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Creating Narratives &amp; Generating Solutions</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Good vs Great Solution Development</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Design Modifications &amp; User Psych</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">16</div>
+              <div class="module-info">
+                <h4>Analysing Test Results</h4>
+                <div class="module-topics-brief">Test Launch, Evaluation, Implementing Wins</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Test Launch &amp; Calling a Test Complete</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Evaluating Results &amp; Iterating</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Implementing Test Wins &amp; Measuring Value</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Communicating Results</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
           </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Building a Lo-Fi Model</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Effort &amp; Alignment</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Building Dynamic Delivery Plans</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 27</div><h4>Execution &amp; Adaptation</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Product Reviews &amp; Team Touch Points</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Launch Strategy &amp; Preparation</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Post Launch Management</li>
-          </ul></div></div>
         </div>
       </div>
-    </div>
 
-    <!-- Track 6: Growing Users -->
-    <div class="track-group anim">
-      <div class="track-header">
-        <div class="track-number">6</div>
-        <div class="track-title">Growing Users: PMF to Scale</div>
-        <div class="track-session-info">Modules 28–30</div>
-      </div>
-      <div class="modules-grid">
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 28</div><h4>Developing the PMF Narrative</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Building an Initial Insight</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Problem to Solve &amp; Target Audience</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Value Proposition &amp; Competitive Advantage</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Growth Strategy &amp; Business Model</li>
-          </ul></div></div>
+      <!-- WEEK 7 — LEFT -->
+      <div class="timeline-item left anim">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 29</div><h4>Validating Riskiest Hypotheses</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div class="timeline-week">Week 7</div>
+        <div class="timeline-card">
+          <h3>Mastery Skills — Strategy &amp; Vision</h3>
+          <div class="card-subtitle">Track 4 &middot; Thinking Like a Senior PM</div>
+          <div class="module-list">
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">17</div>
+              <div class="module-info">
+                <h4>Mastering Product Strategy</h4>
+                <div class="module-topics-brief">6 Dimensions, Value Proposition, Differentiation</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Creating Strategic Foundations</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>The 6 Dimensions of Product Strategy</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Target Audience, Value Proposition &amp; Differentiation</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Channel &amp; Monetisation Strategy</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">18</div>
+              <div class="module-info">
+                <h4>Mastering Vision Narratives</h4>
+                <div class="module-topics-brief">Creating Visions, High Leverage, Buy-In</div>
+                <div class="module-detail-topics"><ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Creating &amp; Using your Vision</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>High Leverage Visions</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Vision Narratives, Not Statements</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Buy-In on your Vision</li>
+                </ul></div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
           </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Risk Validation Techniques</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Market Research &amp; Expert Advice</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Leading Effective PMF Interviews</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Targeted Risk Validation Techniques</li>
-          </ul></div></div>
-        </div>
-        <div class="module-card" onclick="this.classList.toggle('open')">
-          <div class="module-card-header">
-            <div><div class="module-tag">Module 30</div><h4>Growing Users</h4></div>
-            <div class="module-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-          </div>
-          <div class="module-topics"><div class="module-topics-inner"><ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Getting Traction</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Building the First Growth Loop</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Finding PMF Program Snapshot</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Measuring &amp; Evaluating Engagement</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Leveraging NPS Surveys</li>
-          </ul></div></div>
         </div>
       </div>
-    </div>
 
+      <!-- WEEK 8 — RIGHT -->
+      <div class="timeline-item right anim">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <div class="timeline-week">Week 8</div>
+        <div class="timeline-card">
+          <h3>Mastery Skills — Systems &amp; Roadmaps</h3>
+          <div class="card-subtitle">Track 4 &middot; Feedback, Dashboards, OKRs</div>
+          <div class="module-list">
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">19</div>
+              <div class="module-info">
+                <h4>Feedback Management Systems</h4>
+                <div class="module-topics-brief">Feedback Rivers, Systems of Record</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">20</div>
+              <div class="module-info">
+                <h4>Mastering Lever Dashboards</h4>
+                <div class="module-topics-brief">Setup, Rituals, KPIs and Roadmaps</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">21</div>
+              <div class="module-info">
+                <h4>Building 4D Roadmaps</h4>
+                <div class="module-topics-brief">4 Lenses, Brainstorming &amp; Prioritising</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">22</div>
+              <div class="module-info">
+                <h4>Creating OKR Loops</h4>
+                <div class="module-topics-brief">Writing OKRs, Reviews, Avoiding Pitfalls</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 9 — LEFT -->
+      <div class="timeline-item left anim">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        </div>
+        <div class="timeline-week">Week 9</div>
+        <div class="timeline-card">
+          <h3>Specs, Decisions &amp; Scaling</h3>
+          <div class="card-subtitle">Tracks 4 &amp; 5 &middot; Shipping at Scale</div>
+          <div class="module-list">
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">23</div>
+              <div class="module-info">
+                <h4>Empowering Product Specs</h4>
+                <div class="module-topics-brief">Specifications, Context, Implementation</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">24</div>
+              <div class="module-info">
+                <h4>Decision Architecture</h4>
+                <div class="module-topics-brief">Decision Budget, Circles, Completing the Loop</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">25</div>
+              <div class="module-info">
+                <h4>Product Conviction</h4>
+                <div class="module-topics-brief">Delivery at Scale, Value Conviction, Hypothesis</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">26</div>
+              <div class="module-info">
+                <h4>Building Impact Conviction</h4>
+                <div class="module-topics-brief">Lo-Fi Model, Effort, Dynamic Delivery Plans</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 10 — RIGHT -->
+      <div class="timeline-item right anim">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        </div>
+        <div class="timeline-week">Week 10</div>
+        <div class="timeline-card">
+          <h3>Execution &amp; Growing Users</h3>
+          <div class="card-subtitle">Tracks 5 &amp; 6 &middot; PMF to Scale</div>
+          <div class="module-list">
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">27</div>
+              <div class="module-info">
+                <h4>Execution &amp; Adaptation</h4>
+                <div class="module-topics-brief">Product Reviews, Launch Strategy, Post Launch</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">28</div>
+              <div class="module-info">
+                <h4>Developing the PMF Narrative</h4>
+                <div class="module-topics-brief">Initial Insight, Target Audience, Value Prop</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">29</div>
+              <div class="module-info">
+                <h4>Validating Riskiest Hypotheses</h4>
+                <div class="module-topics-brief">Risk Validation, Market Research, PMF Interviews</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+            <div class="module-item module-item-expandable" onclick="this.classList.toggle('open')">
+              <div class="module-num">30</div>
+              <div class="module-info">
+                <h4>Growing Users</h4>
+                <div class="module-topics-brief">Traction, Growth Loops, NPS Surveys</div>
+              </div>
+              <div class="module-expand-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end .timeline -->
   </div>
 </section>
 
@@ -895,37 +1076,34 @@ body::before {
     <div class="section-header anim">
       <div class="section-tag">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Interview Preparation
+        Runs in Parallel
       </div>
-      <h2 class="section-title">Crack Your Product Interview</h2>
-      <p class="section-desc">5 focused sessions covering every framework, case study and question type. 2-hour live sessions every weekend with Malay.</p>
+      <h2 class="section-title">Interview Preparation</h2>
+      <p class="section-desc">5 focused sessions (2 hours each) running alongside the learning modules. Every framework, case study and question type covered.</p>
     </div>
-
     <div class="interview-grid">
       <div class="interview-card anim">
-        <h4>Problem Solving &amp; Product Sense Questions</h4>
+        <h4>Problem Solving &amp; Product Sense</h4>
         <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>General Introduction to Problem Solving</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Introduction to Product Sense</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Framework for Product Sense Questions</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Asking Clarifying Questions</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Jobs to be Done Framework</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>User Personas &amp; Pain Points</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Prioritisation in Product Sense</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Listing &amp; Evaluating Solutions</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Evaluating Trade Offs</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>General Introduction to Problem Solving</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Framework for Product Sense Questions</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Asking Clarifying Questions</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Jobs to be Done Framework</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>User Personas &amp; Pain Points</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Prioritisation in Product Sense</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Listing, Evaluating Solutions &amp; Trade Offs</li>
         </ul>
       </div>
       <div class="interview-card anim">
         <h4>Additional Interview Topics</h4>
         <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Analytical &amp; Metric Questions</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Strategy &amp; Business Case Questions</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Behavioral &amp; Leadership Questions</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Resume &amp; CV Building</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Portfolio Development</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Mock Interviews with Malay</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Job Referrals &amp; Networking</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Analytical &amp; Metric Questions</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Strategy &amp; Business Case Questions</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Behavioral &amp; Leadership Questions</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Resume &amp; CV Building</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Portfolio Development</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Mock Interviews with Malay</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Job Referrals &amp; Networking</li>
         </ul>
       </div>
     </div>
@@ -938,39 +1116,32 @@ body::before {
     <div class="section-header anim">
       <div class="section-tag">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-2V6a4 4 0 0 0-4-4z"/></svg>
-        AI Module
+        4-Week Add-On
       </div>
-      <h2 class="section-title">Master AI for Product Management</h2>
-      <p class="section-desc">4-week intensive module to become a master AI product manager. Learn concepts, apply them to 40+ AI tools, and build real proof of work.</p>
+      <h2 class="section-title">AI for Product Management</h2>
+      <p class="section-desc">Become a master AI product manager. Learn concepts, apply them to 40+ AI tools, and build real proof of work.</p>
     </div>
-
     <div class="ai-grid">
       <div class="ai-card anim">
-        <div class="ai-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-        </div>
+        <div class="ai-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
         <h3>Learning AI Concepts</h3>
-        <p>Comprehensive knowledge of the AI landscape, from fundamentals to advanced generative AI, LLMs, and prompt engineering. Weekly module-by-module live doubt clearing sessions.</p>
+        <p>From fundamentals to advanced generative AI, LLMs, and prompt engineering. Weekly live doubt clearing sessions.</p>
       </div>
       <div class="ai-card anim">
-        <div class="ai-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
-        </div>
-        <h3>Applying AI in Product Management</h3>
-        <p>Incorporate AI into product life cycles, build AI-driven features, and address real-world business scenarios. Capstone project where you build an actual AI-powered product.</p>
+        <div class="ai-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Applying AI in PM</h3>
+        <p>Build AI-driven features and a capstone AI-powered product. Real-world business scenarios and proof of work.</p>
       </div>
       <div class="ai-card anim">
-        <div class="ai-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
+        <div class="ai-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
         <h3>1:1 Mentorship</h3>
-        <p>Personalized sessions with Malay to review your progress, troubleshoot challenges, and build strong AI-infused case studies for your portfolio. Weekly check-ins on your project.</p>
+        <p>Personalized sessions with Malay. Review progress, troubleshoot challenges, build AI-infused case studies for your portfolio.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== PROGRAM HIGHLIGHTS ===== -->
+<!-- ===== HIGHLIGHTS ===== -->
 <section class="section section-purple">
   <div class="section-inner">
     <div class="section-header anim">
@@ -978,36 +1149,28 @@ body::before {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         Program Highlights
       </div>
-      <h2 class="section-title">What Makes This Program Special</h2>
+      <h2 class="section-title">What Makes This Special</h2>
     </div>
     <div class="highlights-grid">
       <div class="highlight-card anim">
-        <div class="highlight-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
+        <div class="highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
         <h4>All Sessions by Malay</h4>
-        <p>No TAs, no junior mentors. Every session is directly with a practicing Director of PM.</p>
+        <p>No TAs, no junior mentors. Every session directly with a Director of PM.</p>
       </div>
       <div class="highlight-card anim">
-        <div class="highlight-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
+        <div class="highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <h4>Lifetime Access</h4>
-        <p>Lifetime access to recordings, materials, and future cohorts. Re-join any session you miss.</p>
+        <p>Recordings, materials, and future cohorts. Re-join any session you miss.</p>
       </div>
       <div class="highlight-card anim">
-        <div class="highlight-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        </div>
+        <div class="highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
         <h4>Supplementary Videos</h4>
-        <p>All learning, interview and AI sessions come with supplementary videos to go deeper.</p>
+        <p>All sessions come with extra videos to go deeper into every concept.</p>
       </div>
       <div class="highlight-card anim">
-        <div class="highlight-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        </div>
+        <div class="highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
         <h4>Cohorts Every 45 Days</h4>
-        <p>New cohorts run every 45 days. Miss a session? Join the next cohort for that topic.</p>
+        <p>Miss a session? Join the next cohort for that topic. No pressure.</p>
       </div>
     </div>
   </div>
@@ -1060,15 +1223,15 @@ body::before {
 </footer>
 
 <script>
-// Navbar scroll effect
+// Navbar scroll
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
 });
 
-// Intersection Observer for animations
+// Intersection Observer for scroll animations
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.anim').forEach(el => observer.observe(el));
 </script>
 </body>
