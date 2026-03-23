@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Product Management | Ayuda by Malay Krishna</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #FAFAFA;
+  color: #1a1a2e;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+:root {
+  --purple: #5E17EB;
+  --purple-light: #7E46FF;
+  --purple-glow: rgba(94, 23, 235, 0.18);
+  --purple-subtle: rgba(94, 23, 235, 0.06);
+  --purple-bg: rgba(94, 23, 235, 0.025);
+  --white: #ffffff;
+  --bg: #FAFAFA;
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a4a68;
+  --text-muted: #8888a4;
+  --border: rgba(94, 23, 235, 0.08);
+  --border-hover: rgba(94, 23, 235, 0.25);
+  --radius: 1rem;
+  --radius-lg: 1.5rem;
+  --max-width: 1200px;
+  --grid-color: rgba(94, 23, 235, 0.04);
+}
+
+/* Paper Grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Animations */
+@keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-12px); } }
+@keyframes pulse-dot { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+@keyframes gradient-shift { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+@keyframes scroll-left { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+.anim { opacity:0; transform:translateY(25px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.anim.visible { opacity:1; transform:translateY(0); }
+
+/* === Icon System === */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.icon svg { width: 100%; height: 100%; }
+.icon-sm { width: 20px; height: 20px; }
+.icon-md { width: 24px; height: 24px; }
+.icon-box {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  background: var(--purple-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--purple);
+}
+.icon-box svg { width: 22px; height: 22px; }
+.icon-box-lg {
+  width: 52px; height: 52px;
+  border-radius: 13px;
+  background: var(--purple-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--purple);
+}
+.icon-box-lg svg { width: 24px; height: 24px; }
+
+/* === Navbar === */
+.navbar {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  padding: 0 2rem; height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s;
+}
+.navbar.scrolled { background: rgba(255,255,255,0.92); box-shadow: 0 2px 24px rgba(94,23,235,0.06); }
+.nav-brand { display: flex; align-items: center; }
+.nav-logo { height: 44px; width: auto; }
+.nav-links { display:flex; gap:2rem; list-style:none; align-items:center; }
+.nav-links a {
+  font-size: 0.95rem; font-weight: 500; color: var(--text-secondary);
+  transition: color 0.3s; position: relative;
+}
+.nav-links a:hover { color: var(--purple); }
+.nav-links a::after {
+  content:''; position:absolute; bottom:-4px; left:0;
+  width:0; height:2px; background:var(--purple); transition:width 0.3s; border-radius:1px;
+}
+.nav-links a:hover::after { width:100%; }
+.nav-cta {
+  padding: 0.7rem 1.75rem; background: var(--purple); border-radius: 10px;
+  font-size: 0.92rem; font-weight: 600; color: #fff !important;
+  transition: all 0.3s; box-shadow: 0 4px 14px var(--purple-glow);
+}
+.nav-cta:hover { background: var(--purple-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(94,23,235,0.25); }
+.nav-cta::after { display:none !important; }
+.hamburger { display:none; cursor:pointer; flex-direction:column; gap:5px; }
+.hamburger span { width:22px; height:2px; background:var(--text-primary); border-radius:2px; transition:0.3s; }
+
+/* === Buttons === */
+.btn-primary {
+  display:inline-flex; align-items:center; gap:0.6rem;
+  padding: 1.05rem 2.5rem; background:var(--purple); color:#fff;
+  border-radius:12px; font-weight:600; font-size:1.05rem;
+  border:none; cursor:pointer; transition:all 0.3s;
+  font-family:'Poppins',sans-serif; box-shadow: 0 6px 20px var(--purple-glow);
+}
+.btn-primary:hover { background:var(--purple-light); transform:translateY(-2px); box-shadow:0 10px 30px rgba(94,23,235,0.25); }
+.btn-secondary {
+  display:inline-flex; align-items:center; gap:0.6rem;
+  padding: 1.05rem 2.5rem; background:var(--white); color:var(--purple);
+  border-radius:12px; font-weight:600; font-size:1.05rem;
+  border:1.5px solid var(--border); cursor:pointer; transition:all 0.3s;
+  font-family:'Poppins',sans-serif;
+}
+.btn-secondary:hover { border-color:var(--purple); background:var(--purple-subtle); }
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--purple), var(--purple-light), #c084fc);
+  background-size: 200% 200%; animation: gradient-shift 4s ease infinite;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+
+/* === HERO === */
+.hero {
+  min-height:100vh; display:flex; align-items:center;
+  padding:110px 2rem 60px; position:relative; overflow:hidden;
+}
+.hero-glow { position:absolute; border-radius:50%; filter:blur(120px); pointer-events:none; opacity:0.5; }
+.hero-glow-1 { top:-100px; right:-100px; width:600px; height:600px; background:rgba(94,23,235,0.1); }
+.hero-glow-2 { bottom:-150px; left:-150px; width:500px; height:500px; background:rgba(126,70,255,0.07); }
+.hero-inner {
+  max-width:var(--max-width); margin:0 auto; display:grid;
+  grid-template-columns:1fr 1fr; gap:4rem; align-items:center;
+  width:100%; position:relative; z-index:1;
+}
+.hero-content { animation: fadeInUp 0.9s ease; }
+.hero-badge {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  padding:0.45rem 0.5rem 0.45rem 1rem; background:var(--white); border:1px solid var(--border);
+  border-radius:50px; font-size:0.82rem; font-weight:600; color:#6b7280;
+  margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+.hero-badge-pill {
+  display:inline-flex; align-items:center; gap:0.35rem;
+  padding:0.25rem 0.75rem; background:rgba(22,163,74,0.1); color:#16a34a;
+  border-radius:50px; font-size:0.75rem; font-weight:700;
+}
+.hero-badge-dot { width:6px; height:6px; background:#16a34a; border-radius:50%; animation:pulse-dot 1.5s infinite; }
+.hero h1 {
+  font-size:3.4rem; font-weight:800; line-height:1.1;
+  margin-bottom:1.5rem; letter-spacing:-0.03em; color:var(--text-primary);
+}
+.hero-desc { font-size:1.1rem; color:var(--text-secondary); margin-bottom:2rem; max-width:500px; line-height:1.75; }
+.hero-buttons { display:flex; gap:1rem; flex-wrap:wrap; }
+.hero-visual { display:flex; justify-content:center; align-items:center; position:relative; animation:fadeIn 1s ease 0.3s both; }
+.hero-image-wrapper { position:relative; width:400px; height:460px; }
+.hero-image-frame {
+  width:100%; height:100%; border-radius:var(--radius-lg); overflow:hidden;
+  position:relative; background:linear-gradient(135deg, var(--purple), var(--purple-light));
+  padding:3px; box-shadow:0 20px 60px rgba(94,23,235,0.2), 0 0 0 1px rgba(94,23,235,0.05);
+}
+.hero-image-frame img { width:100%; height:100%; object-fit:cover; object-position:top center; border-radius:calc(var(--radius-lg) - 3px); background:#f0e8ff; }
+.hero-float-card {
+  position:absolute; background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--border); border-radius:var(--radius);
+  padding:0.75rem 1rem; display:flex; align-items:center; gap:0.6rem;
+  box-shadow:0 8px 24px rgba(94,23,235,0.08);
+  animation:float 6s ease-in-out infinite; z-index:2;
+}
+.hero-float-card.c1 { top:30px; left:-55px; }
+.hero-float-card.c2 { bottom:70px; right:-55px; animation-delay:2s; }
+.hero-float-card.c3 { bottom:-5px; left:-35px; animation-delay:4s; }
+.float-icon { width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--purple); }
+.float-icon.fi-purple { background:rgba(94,23,235,0.1); }
+.float-icon.fi-green { background:rgba(34,197,94,0.1); color: #16a34a; }
+.float-icon.fi-blue { background:rgba(59,130,246,0.1); color: #3b82f6; }
+.float-icon svg { width:18px; height:18px; }
+.float-label { font-size:0.68rem; color:var(--text-muted); }
+.float-value { font-size:0.85rem; font-weight:600; color:var(--text-primary); }
+
+/* === LOGO STRIP === */
+.logos-section {
+  padding:2.5rem 2rem; overflow:hidden;
+  max-width:var(--max-width); margin:2rem auto 0;
+}
+.logos-label {
+  text-align:center; font-size:0.75rem; text-transform:uppercase;
+  letter-spacing:0.15em; color:var(--text-muted); margin-bottom:1.5rem; font-weight:600;
+}
+.logos-track-wrapper {
+  position:relative; overflow:hidden;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.logos-track { display:flex; gap:5rem; align-items:center; animation:scroll-left 35s linear infinite; width:max-content; }
+.logo-img { height:72px; width:auto; opacity:0.85; transition:all 0.3s; object-fit:contain; }
+.logo-img:hover { opacity:1; transform:scale(1.05); }
+
+/* === STATS BAR === */
+.stats-section { padding:0 2rem; margin-top:-2.5rem; position:relative; z-index:10; }
+.stats-inner {
+  max-width:var(--max-width); margin:0 auto;
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  box-shadow:0 8px 32px rgba(94,23,235,0.06);
+  display:grid; grid-template-columns:repeat(5,1fr);
+  overflow:hidden;
+}
+.stat-card {
+  text-align:left; padding:1.5rem 1.75rem;
+  border-right:1px solid var(--border);
+  transition:all 0.3s; position:relative;
+}
+.stat-card:last-child { border-right:none; }
+.stat-card:hover { background:var(--purple-subtle); }
+.stat-label { font-size:0.78rem; color:var(--text-muted); font-weight:500; margin-bottom:0.25rem; }
+.stat-number { font-size:1.75rem; font-weight:800; color:var(--text-primary); line-height:1.2; }
+
+/* === SECTIONS === */
+.section { padding:5.5rem 2rem; position:relative; }
+.section-header { text-align:center; max-width:650px; margin:0 auto 3.5rem; }
+.section-tag {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.4rem 1rem; background:var(--white); border:1px solid var(--border);
+  border-radius:50px; font-size:0.72rem; font-weight:700; color:var(--purple);
+  text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1.25rem;
+  box-shadow:0 2px 6px rgba(94,23,235,0.04);
+}
+.section-title { font-size:2.5rem; font-weight:800; line-height:1.15; margin-bottom:1rem; letter-spacing:-0.025em; color:var(--text-primary); }
+.section-desc { font-size:1rem; color:var(--text-secondary); line-height:1.75; }
+.section-inner { max-width:var(--max-width); margin:0 auto; }
+.section-purple { background:linear-gradient(180deg, var(--purple-bg), rgba(94,23,235,0.04), var(--purple-bg)); }
+
+/* === WHY AYUDA === */
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:3.5rem; align-items:start; }
+.about-content h3 { font-size:1.5rem; font-weight:700; margin-bottom:1.25rem; color:var(--text-primary); }
+.pointer-list { list-style:none; display:flex; flex-direction:column; gap:0.85rem; }
+.pointer-item {
+  display:flex; gap:0.85rem; align-items:flex-start;
+  padding:1rem 1.15rem; background:var(--white); border:1px solid var(--border);
+  border-radius:var(--radius); transition:all 0.3s;
+}
+.pointer-item:hover { border-color:var(--border-hover); box-shadow:0 6px 20px rgba(94,23,235,0.06); }
+.pointer-item strong { display:block; font-size:0.92rem; font-weight:600; color:var(--text-primary); margin-bottom:0.15rem; }
+.pointer-item span { font-size:0.82rem; color:var(--text-muted); line-height:1.5; }
+
+/* About right side visual */
+.about-right { display:flex; flex-direction:column; gap:1.25rem; }
+.about-image-card {
+  border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border);
+  box-shadow:0 12px 32px rgba(94,23,235,0.06);
+}
+.about-image-card img { width:100%; height:320px; object-fit:cover; object-position:top center; }
+.about-meta {
+  display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;
+}
+.about-meta-card {
+  padding:1rem 1.15rem; background:var(--white); border:1px solid var(--border);
+  border-radius:var(--radius); transition:all 0.3s;
+  display:flex; align-items:center; gap:0.85rem;
+}
+.about-meta-card:hover { box-shadow:0 4px 14px rgba(94,23,235,0.06); }
+.about-meta-card img { height:44px; width:auto; object-fit:contain; flex-shrink:0; }
+.about-meta-card strong { font-size:0.88rem; display:block; color:var(--text-primary); }
+.about-meta-card span { font-size:0.78rem; color:var(--text-muted); }
+
+/* === USP === */
+.usp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+.usp-card {
+  padding:2.25rem; background:var(--white); border:1px solid var(--border);
+  border-radius:var(--radius-lg); transition:all 0.35s; position:relative; overflow:hidden;
+}
+.usp-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--purple), var(--purple-light));
+  opacity:0; transition:opacity 0.3s;
+}
+.usp-card:hover::before { opacity:1; }
+.usp-card:hover { transform:translateY(-5px); box-shadow:0 16px 40px rgba(94,23,235,0.08); border-color:var(--border-hover); }
+.usp-card h3 { font-size:1.05rem; font-weight:700; margin:1.25rem 0 0.5rem; color:var(--text-primary); }
+.usp-card p { color:var(--text-secondary); font-size:0.86rem; line-height:1.7; }
+
+/* === PROGRAM === */
+.program-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.25rem; }
+.program-item {
+  display:flex; gap:1.15rem; padding:1.75rem; background:var(--white);
+  border:1px solid var(--border); border-radius:var(--radius-lg); transition:all 0.3s;
+}
+.program-item:hover { border-color:var(--border-hover); box-shadow:0 8px 24px rgba(94,23,235,0.06); }
+.program-item h3 { font-size:1rem; font-weight:600; margin-bottom:0.3rem; color:var(--text-primary); }
+.program-item p { font-size:0.85rem; color:var(--text-secondary); line-height:1.65; }
+
+/* === TESTIMONIALS === */
+.testimonials-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+.testimonial-card {
+  padding:1.75rem; background:var(--white); border:1px solid var(--border);
+  border-radius:var(--radius-lg); transition:all 0.35s; display:flex; flex-direction:column;
+}
+.testimonial-card:hover { border-color:var(--border-hover); box-shadow:0 12px 32px rgba(94,23,235,0.06); transform:translateY(-3px); }
+.testimonial-stars { color:#f59e0b; font-size:0.82rem; margin-bottom:0.85rem; letter-spacing:2px; }
+.testimonial-text { font-size:0.85rem; color:var(--text-secondary); line-height:1.7; flex:1; margin-bottom:1.25rem; }
+.testimonial-author { display:flex; align-items:center; gap:0.7rem; border-top:1px solid var(--border); padding-top:1.1rem; }
+.author-avatar {
+  width:40px; height:40px; border-radius:50%;
+  background:linear-gradient(135deg, var(--purple), var(--purple-light));
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:0.75rem; flex-shrink:0; color:#fff;
+}
+.author-info .name { font-weight:600; font-size:0.88rem; color:var(--text-primary); }
+.author-info .role-company { font-size:0.75rem; color:var(--purple); font-weight:500; }
+
+/* === FAQ === */
+.faq-list { max-width:720px; margin:0 auto; display:flex; flex-direction:column; gap:0.65rem; }
+.faq-item { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:all 0.3s; }
+.faq-item:hover { border-color:var(--border-hover); }
+.faq-item.open { border-color:rgba(94,23,235,0.2); box-shadow:0 4px 14px rgba(94,23,235,0.04); }
+.faq-question {
+  padding:1.15rem 1.35rem; display:flex; justify-content:space-between; align-items:center;
+  cursor:pointer; font-weight:600; font-size:0.92rem; color:var(--text-primary);
+  transition:color 0.3s; user-select:none;
+}
+.faq-question:hover { color:var(--purple); }
+.faq-icon { color:var(--purple); transition:transform 0.3s; flex-shrink:0; margin-left:1rem; }
+.faq-icon svg { width:20px; height:20px; }
+.faq-item.open .faq-icon { transform:rotate(45deg); }
+.faq-answer { max-height:0; overflow:hidden; transition:max-height 0.4s ease; }
+.faq-item.open .faq-answer { max-height:500px; }
+.faq-answer-inner { padding:0 1.35rem 1.15rem; color:var(--text-secondary); font-size:0.88rem; line-height:1.75; }
+
+/* === CTA === */
+.cta-section { padding:5rem 2rem; }
+.cta-card {
+  max-width:780px; margin:0 auto; text-align:center;
+  padding:3.5rem 2.5rem;
+  background:linear-gradient(135deg, rgba(94,23,235,0.04), rgba(126,70,255,0.08));
+  border:1px solid rgba(94,23,235,0.15); border-radius:2rem;
+}
+.cta-card h2 { font-size:2.25rem; font-weight:800; margin-bottom:0.85rem; line-height:1.2; color:var(--text-primary); }
+.cta-card p { color:var(--text-secondary); font-size:1rem; margin-bottom:2rem; max-width:500px; margin-left:auto; margin-right:auto; }
+.cta-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+
+/* === FOOTER === */
+.footer { padding:3.5rem 2rem 1.5rem; border-top:1px solid var(--border); background:var(--white); }
+.footer-inner { max-width:var(--max-width); margin:0 auto; display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:2rem; }
+.footer-brand p { color:var(--text-muted); font-size:0.82rem; max-width:280px; line-height:1.6; margin-top:0.75rem; }
+.footer-links h4 { font-size:0.8rem; font-weight:700; margin-bottom:0.85rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-primary); }
+.footer-links ul { list-style:none; display:flex; flex-direction:column; gap:0.4rem; }
+.footer-links a { font-size:0.82rem; color:var(--text-muted); transition:color 0.3s; }
+.footer-links a:hover { color:var(--purple); }
+.footer-bottom {
+  max-width:var(--max-width); margin:2.5rem auto 0; padding-top:1.5rem;
+  border-top:1px solid var(--border); display:flex; justify-content:space-between;
+  align-items:center; font-size:0.78rem; color:var(--text-muted); flex-wrap:wrap; gap:1rem;
+}
+.social-links { display:flex; gap:0.75rem; }
+.social-link {
+  width:34px; height:34px; border-radius:50%; border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.3s; color:var(--text-muted);
+}
+.social-link:hover { border-color:var(--purple); background:var(--purple-subtle); color:var(--purple); }
+.social-link svg { width:16px; height:16px; }
+
+/* === RESPONSIVE === */
+@media (max-width:1024px) {
+  .hero h1 { font-size:2.7rem; }
+  .hero-image-wrapper { width:330px; height:380px; }
+  .testimonials-grid { grid-template-columns:repeat(2,1fr); }
+  .usp-grid { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:768px) {
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .nav-links.open {
+    display:flex; flex-direction:column; position:absolute;
+    top:68px; left:0; right:0; background:rgba(255,255,255,0.98);
+    backdrop-filter:blur(20px); padding:1.5rem 2rem; gap:1.25rem;
+    border-bottom:1px solid var(--border); box-shadow:0 8px 20px rgba(0,0,0,0.05);
+  }
+  .hero-inner { grid-template-columns:1fr; text-align:center; }
+  .hero-content { order:2; }
+  .hero-visual { order:1; }
+  .hero-desc { margin:0 auto 2rem; }
+  .hero-buttons { justify-content:center; }
+  .hero h1 { font-size:2.15rem; }
+  .hero-image-wrapper { width:260px; height:300px; }
+  .hero-float-card.c1 { left:-8px; top:10px; }
+  .hero-float-card.c2 { right:-8px; }
+  .hero-float-card.c3 { left:0; }
+  .stats-section { margin-top:-1.5rem; }
+  .stats-inner { grid-template-columns:repeat(3,1fr); }
+  .stat-card { border-bottom:1px solid var(--border); }
+  .about-grid { grid-template-columns:1fr; }
+  .about-meta { grid-template-columns:1fr; }
+  .usp-grid { grid-template-columns:1fr; }
+  .program-grid { grid-template-columns:1fr; }
+  .testimonials-grid { grid-template-columns:1fr; }
+  .section-title { font-size:1.85rem; }
+  .cta-card { padding:2.5rem 1.5rem; }
+  .cta-card h2 { font-size:1.65rem; }
+  .footer-inner { flex-direction:column; }
+}
+@media (max-width:480px) {
+  .hero { padding:95px 1rem 50px; }
+  .hero h1 { font-size:1.8rem; }
+  .section { padding:3.5rem 1rem; }
+  .stats-inner { grid-template-columns:repeat(2,1fr); }
+  .stat-card { padding:1rem 1.15rem; }
+  .stat-number { font-size:1.35rem; }
+  .hero-float-card { display:none; }
+  .hero-image-wrapper { width:220px; height:260px; }
+  .logos-track { gap:3rem; }
+  .logo-img { height:48px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <a href="#" class="nav-brand">
+    <img src="ayuda-logo.png" alt="Ayuda by Malay Krishna" class="nav-logo">
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#why-ayuda">Why Ayuda?</a></li>
+    <li><a href="#usp">Ayuda's USP</a></li>
+    <li><a href="#program">Program</a></li>
+    <li><a href="#success-stories">Success Stories</a></li>
+    <li><a href="#faqs">FAQs</a></li>
+    <li><a href="https://forms.gle/1RqD1A4bcvqWGg958" target="_blank" class="nav-cta">Apply Now</a></li>
+  </ul>
+  <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        Applications
+        <span class="hero-badge-pill"><span class="hero-badge-dot"></span> Open</span>
+      </div>
+      <h1>
+        Master<br/>
+        <span class="gradient-text">Product Management</span><br/>
+        with a Practitioner
+      </h1>
+      <p class="hero-desc">
+        Learn from the person who built India's second-largest accounting product from scratch.
+        12 weeks. Live cohorts. Unlimited 1:1 mentorship.
+      </p>
+      <div class="hero-buttons">
+        <a href="https://forms.gle/1RqD1A4bcvqWGg958" target="_blank" class="btn-primary">Explore Programs
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="#why-ayuda" class="btn-secondary">Talk to Malay</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-image-wrapper">
+        <div class="hero-image-frame">
+          <img src="malay-photo.png" alt="Malay Krishna">
+        </div>
+        <div class="hero-float-card c1">
+          <div class="float-icon fi-purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
+          <div><div class="float-label">IIT Delhi</div><div class="float-value">Alumnus</div></div>
+        </div>
+        <div class="hero-float-card c2">
+          <div class="float-icon fi-green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div><div class="float-label">Experience</div><div class="float-value">9+ Years in PM</div></div>
+        </div>
+        <div class="hero-float-card c3">
+          <div class="float-icon fi-blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          </div>
+          <div><div class="float-label">LinkedIn</div><div class="float-value">55,800+ Followers</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<section class="stats-section">
+  <div class="stats-inner anim">
+    <div class="stat-card"><div class="stat-label">Companies Hiring</div><div class="stat-number">250+</div></div>
+    <div class="stat-card"><div class="stat-label">Students Placed</div><div class="stat-number">1000+</div></div>
+    <div class="stat-card"><div class="stat-label">Success Rate</div><div class="stat-number">78%</div></div>
+    <div class="stat-card"><div class="stat-label">Average Hike</div><div class="stat-number">31%</div></div>
+    <div class="stat-card"><div class="stat-label">Program Duration</div><div class="stat-number">12 Weeks</div></div>
+  </div>
+</section>
+
+<!-- ===== ALUMNI LOGOS ===== -->
+<section class="logos-section">
+  <div class="logos-label">Our alumni work at top companies worldwide</div>
+  <div class="logos-track-wrapper">
+    <div class="logos-track">
+      <img class="logo-img" src="logos/Microsoft.png" alt="Microsoft">
+      <img class="logo-img" src="logos/Amazon.png" alt="Amazon">
+      <img class="logo-img" src="logos/TikTok.png" alt="TikTok">
+      <img class="logo-img" src="logos/Dream11.png" alt="Dream11">
+      <img class="logo-img" src="logos/boAt.png" alt="boAt">
+      <img class="logo-img" src="logos/Lowe's.png" alt="Lowe's">
+      <img class="logo-img" src="logos/highradius.png" alt="HighRadius">
+      <img class="logo-img" src="logos/shipsy.png" alt="Shipsy">
+      <img class="logo-img" src="logos/Vyapar.png" alt="Vyapar">
+      <img class="logo-img" src="logos/Uber.png" alt="Uber">
+      <!-- duplicate for infinite scroll -->
+      <img class="logo-img" src="logos/Microsoft.png" alt="Microsoft">
+      <img class="logo-img" src="logos/Amazon.png" alt="Amazon">
+      <img class="logo-img" src="logos/TikTok.png" alt="TikTok">
+      <img class="logo-img" src="logos/Dream11.png" alt="Dream11">
+      <img class="logo-img" src="logos/boAt.png" alt="boAt">
+      <img class="logo-img" src="logos/Lowe's.png" alt="Lowe's">
+      <img class="logo-img" src="logos/highradius.png" alt="HighRadius">
+      <img class="logo-img" src="logos/shipsy.png" alt="Shipsy">
+      <img class="logo-img" src="logos/Vyapar.png" alt="Vyapar">
+      <img class="logo-img" src="logos/Uber.png" alt="Uber">
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY AYUDA ===== -->
+<section class="section" id="why-ayuda">
+  <div class="section-inner">
+    <div class="section-header anim">
+      <div class="section-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Why Ayuda?
+      </div>
+      <h2 class="section-title">Learn from Someone Who<br/><span class="gradient-text">Built It from Scratch</span></h2>
+      <p class="section-desc">Not a career educator. A practicing Director of Product who built India's second-largest accounting product.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-content anim">
+        <h3>Meet Malay Krishna</h3>
+        <ul class="pointer-list">
+          <li class="pointer-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <div>
+              <strong>Built India's 2nd Largest Accounting Product</strong>
+              <span>Founding PM at Vyapar. Scaled from zero to 2M+ users as one of the earliest product hires.</span>
+            </div>
+          </li>
+          <li class="pointer-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <strong>Unlimited 1:1 Mentorship</strong>
+              <span>Direct, personal access to Malay. Not TAs, not junior mentors.</span>
+            </div>
+          </li>
+          <li class="pointer-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>
+            </div>
+            <div>
+              <strong>Practical, Not Theoretical</strong>
+              <span>Real case studies, portfolio building, and proof-of-work that impresses hiring managers.</span>
+            </div>
+          </li>
+          <li class="pointer-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/></svg>
+            </div>
+            <div>
+              <strong>AI-Forward Curriculum</strong>
+              <span>Learn how AI is reshaping product management and stay ahead of the curve.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="about-right anim">
+        <div class="about-image-card">
+          <img src="malay-photo.png" alt="Malay Krishna">
+        </div>
+        <div class="about-meta">
+          <div class="about-meta-card">
+            <img src="logos/Vyapar.png" alt="Vyapar">
+            <div><strong>Director of Product</strong><span>Vyapar &middot; Current</span></div>
+          </div>
+          <div class="about-meta-card">
+            <img src="logos/iit-d.png" alt="IIT Delhi">
+            <div><strong>IIT Delhi</strong><span>Alumnus</span></div>
+          </div>
+          <div class="about-meta-card">
+            <div class="icon-box" style="width:28px;height:28px;border-radius:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div><strong>9+ Years</strong><span>In Product Management</span></div>
+          </div>
+          <div class="about-meta-card">
+            <div class="icon-box" style="width:28px;height:28px;border-radius:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></div>
+            <div><strong>55,800+</strong><span>LinkedIn Followers</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== USP ===== -->
+<section class="section section-purple" id="usp">
+  <div class="section-inner">
+    <div class="section-header anim">
+      <div class="section-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 6-10 13L2 9z"/></svg>
+        Ayuda's USP
+      </div>
+      <h2 class="section-title">What Makes <span class="gradient-text">Ayuda Different</span></h2>
+      <p class="section-desc">Why 1000+ professionals chose Ayuda over every other PM program.</p>
+    </div>
+    <div class="usp-grid">
+      <div class="usp-card anim">
+        <div class="icon-box-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        </div>
+        <h3>Unlimited 1:1s with Malay</h3>
+        <p>Direct, unlimited personal access to a practicing Director of Product for career doubts, interview prep, and product thinking.</p>
+      </div>
+      <div class="usp-card anim">
+        <div class="icon-box-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+        </div>
+        <h3>Build Real Proof of Work</h3>
+        <p>Portfolio Maker tool, hackathons, tool workshops, and case studies that show hiring managers you can do the job.</p>
+      </div>
+      <div class="usp-card anim">
+        <div class="icon-box-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <h3>Practitioner-Led</h3>
+        <p>Malay makes real product decisions every day at Vyapar. Not a retired PM. Not a career educator.</p>
+      </div>
+      <div class="usp-card anim">
+        <div class="icon-box-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+        </div>
+        <h3>Full Placement Support</h3>
+        <p>Resume reviews, mock interviews, and direct job referrals. We don't stop at teaching.</p>
+      </div>
+      <div class="usp-card anim">
+        <div class="icon-box-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Community of Serious PMs</h3>
+        <p>A tight-knit community of professionals serious about transitioning. Peer learning and networking that lasts.</p>
+      </div>
+      <div class="usp-card anim">
+        <div class="icon-box-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8l4-2"/><circle cx="12" cy="14" r="8"/></svg>
+        </div>
+        <h3>AI-Powered PM Skills</h3>
+        <p>Curriculum covers how AI is reshaping PM. Enter the market with skills that matter today.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROGRAM ===== -->
+<section class="section" id="program">
+  <div class="section-inner">
+    <div class="section-header anim">
+      <div class="section-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg>
+        Program
+      </div>
+      <h2 class="section-title">Everything You Get in <span class="gradient-text">12 Weeks</span></h2>
+      <p class="section-desc">Cohort-based. Live. Designed to take you from aspiring PM to hired PM.</p>
+    </div>
+    <div class="program-grid">
+      <div class="program-item anim">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg>
+        </div>
+        <div><h3>Live Cohort Sessions</h3><p>Structured curriculum with fixed batches, real-time Q&amp;A, assignments, and deadlines.</p></div>
+      </div>
+      <div class="program-item anim">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        </div>
+        <div><h3>Unlimited 1:1 with Malay</h3><p>Personal mentorship for your specific gaps, career questions, and interview preparation.</p></div>
+      </div>
+      <div class="program-item anim">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+        </div>
+        <div><h3>Portfolio Maker Tool</h3><p>Build a professional PM portfolio on our platform. Showcase product thinking to recruiters.</p></div>
+      </div>
+      <div class="program-item anim">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <div><h3>Placement Support</h3><p>Resume reviews, mock interviews, and direct job referrals to partner companies.</p></div>
+      </div>
+      <div class="program-item anim">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div><h3>Hackathons &amp; Challenges</h3><p>Hands-on competitive product-building experiences that sharpen your thinking.</p></div>
+      </div>
+      <div class="program-item anim">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div><h3>Tool Workshops</h3><p>Practical workshops on PM tools and workflows you'll actually use on the job.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SUCCESS STORIES (3 only) ===== -->
+<section class="section section-purple" id="success-stories">
+  <div class="section-inner">
+    <div class="section-header anim">
+      <div class="section-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Success Stories
+      </div>
+      <h2 class="section-title">Real Transformations from <span class="gradient-text">Real People</span></h2>
+      <p class="section-desc">Dedication, learning, and the power of the right guidance.</p>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card anim">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">Malay's classes were incredibly helpful. The structured approach to learning product frameworks, combined with real-world case studies, gave me the confidence to excel in interviews. The 1:1 sessions provided personalized feedback that directly addressed my weak areas and ensured I landed my dream role at Microsoft.</p>
+        <div class="testimonial-author"><div class="author-avatar">AJ</div><div class="author-info"><div class="name">Aishwarya Jaiswal</div><div class="role-company">Product Manager, Microsoft</div></div></div>
+      </div>
+
+      <div class="testimonial-card anim">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">Within just 20 days of starting the program, I cracked multiple interviews including Lloyd and Uber. Malay's emphasis on design thinking and structured approach to answering PM interview questions helped me stand out. The curated question bank covering FAANG companies is remarkably accurate.</p>
+        <div class="testimonial-author"><div class="author-avatar">KA</div><div class="author-info"><div class="name">Khyati Merh Albert</div><div class="role-company">Director of Product, Lloyd</div></div></div>
+      </div>
+
+      <div class="testimonial-card anim">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">The 1:1 sessions and practical product-building exercises made all the difference. We didn't just study concepts, we applied them and built the mindset of a PM who delivers impact. Today I am a Lead Product Manager at Lowe's, a Fortune 500 company. Ayuda prepared me for the role itself.</p>
+        <div class="testimonial-author"><div class="author-avatar">SS</div><div class="author-info"><div class="name">Shreyas Sati</div><div class="role-company">Lead PM, Lowe's (Fortune 500)</div></div></div>
+      </div>
+
+    </div>
+    <div style="display:flex; justify-content:center; margin-top:2.5rem;">
+      <a href="#" class="btn-secondary">
+        View All Success Stories
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section" id="faqs">
+  <div class="section-inner">
+    <div class="section-header anim">
+      <div class="section-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        FAQs
+      </div>
+      <h2 class="section-title">Frequently Asked <span class="gradient-text">Questions</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item anim">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Who is this program for?
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">Working professionals looking to transition into Product Management. Engineers, designers, marketers, business analysts, sales professionals. If you're serious about PM, this is for you.</div></div>
+      </div>
+      <div class="faq-item anim">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          What does "unlimited 1:1s" actually mean?
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">Schedule as many one-on-one sessions with Malay as you need. Interview prep, career doubts, portfolio review, product thinking. No cap. Not TAs. Malay himself.</div></div>
+      </div>
+      <div class="faq-item anim">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          I'm already a PM. Is this relevant for me?
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">Absolutely. We've had PMs level up to Senior PM or transition to better companies. Alumni have moved to Microsoft, Amazon, boAt, TikTok, and more.</div></div>
+      </div>
+      <div class="faq-item anim">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          How is Ayuda different from other PM programs?
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">Three things: (1) Malay is a practicing Director of Product, not a full-time educator. (2) Unlimited personal 1:1s with him, not TAs. (3) Curriculum built around practical proof-of-work, not just theoretical frameworks.</div></div>
+      </div>
+      <div class="faq-item anim">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          What's the time commitment per week?
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">Around 8-10 hours per week including live sessions, assignments, 1:1s, and self-study. Sessions are scheduled outside standard work hours.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <div class="cta-card anim">
+    <h2>Ready to Write Your<br/><span class="gradient-text">Success Story?</span></h2>
+    <p>Join hundreds of professionals who transformed their careers with Ayuda.</p>
+    <div class="cta-buttons">
+      <a href="https://forms.gle/1RqD1A4bcvqWGg958" target="_blank" class="btn-primary">
+        Explore Programs
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <a href="#why-ayuda" class="btn-secondary">Talk to Malay</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="ayuda-logo.png" alt="Ayuda by Malay Krishna" style="height:30px; width:auto;">
+      <p>India's practitioner-led product management program. Learn from someone who does the job every day.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#why-ayuda">Why Ayuda?</a></li>
+        <li><a href="#usp">Ayuda's USP</a></li>
+        <li><a href="#program">Program</a></li>
+        <li><a href="#success-stories">Success Stories</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#faqs">FAQs</a></li>
+        <li><a href="https://forms.gle/1RqD1A4bcvqWGg958" target="_blank">Apply Now</a></li>
+        <li><a href="https://www.linkedin.com/in/malaykrishna/" target="_blank">Malay on LinkedIn</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:malay@ayuda.co.in">malay@ayuda.co.in</a></li>
+        <li><a href="https://ayuda.co.in" target="_blank">ayuda.co.in</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Ayuda by Malay Krishna. All rights reserved.</span>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/malaykrishna/" target="_blank" class="social-link" title="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://ayuda.co.in" target="_blank" class="social-link" title="Website">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.anim').forEach(el => observer.observe(el));
+
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href !== '#') {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) { target.scrollIntoView({ behavior: 'smooth' }); document.getElementById('navLinks').classList.remove('open'); }
+    }
+  });
+});
+</script>
+</body>
+</html>
